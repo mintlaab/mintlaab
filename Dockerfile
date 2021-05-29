@@ -3,8 +3,6 @@ WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY package-lock.json ./
-RUN apk add --update python make g++ \
-   && rm -rf /var/cache/apk/*
 RUN npm config set shell sh
 RUN npm install
 COPY ./ ./
