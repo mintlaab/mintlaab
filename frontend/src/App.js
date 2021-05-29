@@ -4,7 +4,7 @@ import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 
 import { Body, Button, Header, Image, LogoImage, Link } from "./components";
-import logo from "./MintlaabMarkColour.png";
+import logo from "./assets/MintlaabMarkColour.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
 
 // import { addresses, abis } from "@project/contracts";
@@ -14,7 +14,7 @@ import { Zora } from '@zoralabs/zdk'
 import { Wallet } from 'ethers'
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { BrowserRouter as Router, Switch, Route, Link as RouterLink } from "react-router-dom";
-import mintlaablogo from "./MintlaabLogoColour.png";
+import mintlaablogo from "./assets/MintlaabLogoColour.png";
 import Home from "./pages/Home";
 import Mint from "./pages/Mint";
 import Generate from "./pages/Generate";

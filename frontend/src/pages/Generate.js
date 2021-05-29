@@ -4,7 +4,6 @@ import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 
 import { Body, Button, Header, Image, Link } from "../components";
-import mark from "../MintlaabMarkColour.png";
 import useWeb3Modal from "../hooks/useWeb3Modal";
 
 // import { addresses, abis } from "@project/contracts";
