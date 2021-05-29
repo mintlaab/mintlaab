@@ -5,6 +5,7 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN apk add --update python make g++ \
    && rm -rf /var/cache/apk/*
+RUN npm config set shell sh
 RUN npm install
 COPY ./ ./
 CMD ["npm", "start"]
