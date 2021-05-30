@@ -42,19 +42,19 @@ export const Link = styled.a.attrs({
 `;
 
 export const Button = styled.button`
-  background-color: #163250;
-  border: none;
-  border-radius: 8px;
-  color: #3CD36B;
-  cursor: pointer;
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-  margin: 0px 20px;
-  padding: 12px 24px;
+  width: 40px;
+  height: 19px;
+  margin: 8.5px 17.5px 1px 146.5px;
+  padding: 4.5px 7.5px 5px 8px;
+  border-radius: 9.5px;
+  background-color: #3cd36a;
+`;
 
-  ${props => props.hidden && "hidden"} :focus {
-    border: none;
-    outline: none;
-  }
+export const CreateButton = styled.button`
+  width: 40px;
+  height: 19px;
+  margin: 8.5px 17.5px 1px 146.5px;
+  padding: 4.5px 7.5px 5px 8px;
+  border-radius: 9.5px;
+  background-color: #3cd36a;
 `;

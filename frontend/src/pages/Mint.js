@@ -3,7 +3,7 @@ import React from "react";
 // import { getDefaultProvider } from "@ethersproject/providers";
 import { useQuery } from "@apollo/react-hooks";
 
-import { Body, Button, Header, Image, Link } from "../components";
+import { Body, CreateButton, Header, Image, Link } from "../components";
 import useWeb3Modal from "../hooks/useWeb3Modal";
 
 // import { addresses, abis } from "@project/contracts";
@@ -71,17 +71,21 @@ function Mint() {
 
   return (
     <div>
-      <Body>
-        <div class="form-group">
-          <label class="form-label" for="nft-title">Title</label>
-          <input class="form-input" type="text" id="nft-title" placeholder="Title..."></input>
-          <label class="form-label" for="nft-description">Description</label>
-          <textarea class="form-input" type="text" id="nft-description" placeholder="Description..." rows="3"></textarea>
+      <div class="columns">
+        <div>
+          <div class="form-group" >
+            <label class="form-label" for="ipfs-cid">IPFS CID</label>
+            <input class="form-input" type="text" id="ipfs-cid" placeholder="IPFS CID"></input>
+            <label class="form-label" for="nft-title">Title</label>
+            <input class="form-input" type="text" id="nft-title" placeholder="Title..."></input>
+            <label class="form-label" for="nft-description">Description</label>
+            <textarea class="form-input" type="text" id="nft-description" placeholder="Description..." rows="3"></textarea>
+          </div>
+          <button className="btn btn-success" onClick={() => mintNFT(provider)}>
+            Mint NFT
+          </button>
         </div>
-        <Button onClick={() => mintNFT(provider)}>
-          Mint NFT
-        </Button>
-      </Body>
+      </div>
     </div>
   );
 }
