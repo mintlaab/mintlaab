@@ -7,7 +7,6 @@ import fleekStorage from '@fleekhq/fleek-storage-js'
 import { Body, CreateButton, Header, Image, Link } from "../components";
 import useWeb3Modal from "../hooks/useWeb3Modal";
 import env from "react-dotenv";
-import { sha256 } from 'js-sha256';
 
 // import { addresses, abis } from "@project/contracts";
 import GET_TRANSFERS from "../graphql/subgraph";
