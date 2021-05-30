@@ -17,7 +17,6 @@ import { BrowserRouter as Router, Switch, Route, Link as RouterLink } from "reac
 import mintlaablogo from "./assets/MintlaabLogoColour.png";
 import Home from "./pages/Home";
 import Mint from "./pages/Mint";
-import Generate from "./pages/Generate";
 import Error from "./pages/Error";
 import {
   constructBidShares,
@@ -27,9 +26,13 @@ import {
   isMediaDataVerified
 } from '@zoralabs/zdk'
 
+
+
 function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
   return (
-    <Button
+    <button
+      className="btn"
+      style={{margin: "20px"}}
       onClick={() => {
         if (!provider) {
           loadWeb3Modal();
@@ -39,13 +42,14 @@ function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
       }}
     >
       {!provider ? "Connect Wallet" : "Disconnect Wallet"}
-    </Button>
+    </button>
   );
 }
 
 function App() {
   const { loading, error, data } = useQuery(GET_TRANSFERS);
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
+  
 
   React.useEffect(() => {
     if (!loading && !error && data && data.transfers) {
@@ -55,21 +59,33 @@ function App() {
 
   return (
     <Router>
-      <div>
-        <RouterLink to="/">
-          <LogoImage src={mintlaablogo}/>
-        </RouterLink>
-        <Header>
-          <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} />
-        </Header>
-        <Body>
+      <div style={{position: "relative"}}>
+        <header className="navbar" style={{height: "500px", position: "relative", width: "100%", height: "100%", top: "0", left: "0"}}>
+          <section className="navbar-section">
+            <RouterLink to="/">
+              <LogoImage src={mintlaablogo}/>
+            </RouterLink>
+          </section>
+          <section className="navbar-section">
+            <div className="input-group input-inline">
+              <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} />
+            </div>
+          </section>
+        </header>
+        <div style={{
+          alignItems: "center",
+          position: "relative",
+          display: "flex",
+          justifyContent: "center",
+          minHeight: "200px",
+          verticalAlign: "middle"
+        }}>
           <Switch>
             <Route path="/" component={Home} exact />
-            <Route path="/generate" component={Generate} />
             <Route path="/mint" component={Mint} />
             <Route component={Error} />
           </Switch>
-        </Body>
+        </div>
       </div>
     </Router>
   );
