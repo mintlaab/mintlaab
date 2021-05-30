@@ -13,8 +13,13 @@ function Query(props){
   });
   let definedData = 'Not Found'
   if(!loading && !error){
+    try{
     definedData = data.domains[0].resolvedAddress.id
     console.log(definedData)
+    }
+    catch(err){
+      console.log(err)
+    }
   }
   return <p>ENS Saved For Address: {definedData}</p>
 }
