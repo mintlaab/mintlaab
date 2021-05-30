@@ -7,9 +7,11 @@ import fleekStorage from '@fleekhq/fleek-storage-js'
 import { Body, CreateButton, Header, Image, Link } from "../components";
 import useWeb3Modal from "../hooks/useWeb3Modal";
 import env from "react-dotenv";
+import { sha256 } from 'js-sha256';
 
 // import { addresses, abis } from "@project/contracts";
 import GET_TRANSFERS from "../graphql/subgraph";
+// import getArt from "../components/sketch"
 
 import { Zora } from '@zoralabs/zdk'
 import { Wallet } from 'ethers'
@@ -59,22 +61,33 @@ async function mintNFT(provider) {
 
   const metadataHash = await sha256FromBuffer(Buffer.from(minified))
 
-  const mediaData = constructMediaData(
-    'https://ipfs.fleek.co/ipfs/bafybeiejmhcxqjgeplgsr2d2cpyqdgqwtswcih6gnw4bjgsr5bfojkgwwy',
-    'https://ipfs.fleek.co/ipfs/bafybeib2aywiflnrognbrkkkokcmmxh4c75rzukn55rounu3s4wvaljneu',
-    "0xbcee2b025f77df6f7ea70b02b89b01de9ef6919651302160345f78d7ba000214",
-    metadataHash
-  )
+  let image_base64 = "R0lGODlhCAAHAIABAGSV7f///yH+EUNyZWF0ZWQgd2l0aCBHSU1QACH5BAEKAAEALAAAAAAIAAcAAAINjI8BkMq41onRUHljAQA7"
 
-  console.log(env.FLEEK_API_SECRET)
+  let image_blob = base64toBlob(image_base64, "image/gif")
+
+  console.log(sha256(image_base64))
+  console.log(metadataHash)
 
   const uploadedFile = await fleekStorage.upload({
     apiKey: env.FLEEK_API_KEY,
     apiSecret: env.FLEEK_API_SECRET,
     key: 'image-tri-2',
-    data: base64toBlob("R0lGODlhCAAHAIABAGSV7f///yH+EUNyZWF0ZWQgd2l0aCBHSU1QACH5BAEKAAEALAAAAAAIAAcAAAINjI8BkMq41onRUHljAQA7", "image/gif"),
+    data: image_blob,
   });
 
+  const uploadedMetadata = await fleekStorage.upload({
+    apiKey: env.FLEEK_API_KEY,
+    apiSecret: env.FLEEK_API_SECRET,
+    key: 'image-tri-2'+'-metadata',
+    data: minified,
+  });
+
+  const mediaData = constructMediaData(
+    'https://ipfs.fleek.co/ipfs/'+uploadedFile.hash,
+    'https://ipfs.fleek.co/ipfs/'+uploadedMetadata.hash,
+    "0xbcee2b025f77df6f7ea70b02b89b01de9ef6919651302160345f78d7ba000214",
+    metadataHash
+  )
   console.log("https://ipfs.fleek.co/ipfs/"+uploadedFile.hash)
 
   // const contentHash = sha256FromBuffer(Buffer.from('Ours Truly,'))
