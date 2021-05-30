@@ -7,6 +7,10 @@ const Home = () => {
 
   const history = useHistory();
 
+  // const cid = new global.CID('bafybeiejmhcxqjgeplgsr2d2cpyqdgqwtswcih6gnw4bjgsr5bfojkgwwy')
+  // let hex_value = Buffer.from(cid.multihash).toString('hex').substring(4);
+  // console.log(hex_value)
+
   function goToMint() {
     history.push("/mint");
   }
