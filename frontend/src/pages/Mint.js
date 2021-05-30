@@ -64,7 +64,6 @@ async function mintNFT(provider) {
 
   let image_blob = base64toBlob(image_base64, "image/gif")
 
-  console.log(sha256(image_base64))
   console.log(metadataHash)
 
   const uploadedFile = await fleekStorage.upload({
