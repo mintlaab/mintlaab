@@ -2,10 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import { Web3Provider } from "@ethersproject/providers";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import env from "react-dotenv";
 
 // Enter a valid infura key here to avoid being rate limited
 // You can get a key for free at https://infura.io/register
-const INFURA_ID = "3302e95ed66948dcaff0e2d10b64ccfa";
+const INFURA_ID = env.INFURA_ID;
 
 const NETWORK_NAME = "rinkeby";
 

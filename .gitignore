@@ -8,6 +8,7 @@ artifacts
 frontend/src/artifacts
 
 .env
+frontend/public/env.js
 
 .DS_Store
 */.DS_Store
