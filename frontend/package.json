@@ -57,6 +57,6 @@
     "test": "react-scripts test"
   },
   "react-dotenv": {
-    "whitelist": ["FLEEK_API_KEY", "FLEEK_API_SECRET"]
+    "whitelist": ["FLEEK_API_KEY", "FLEEK_API_SECRET", "INFURA_ID"]
   }
 }
