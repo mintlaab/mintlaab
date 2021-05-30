@@ -2,12 +2,16 @@ import React from "react";
 // import { Contract } from "@ethersproject/contracts";
 // import { getDefaultProvider } from "@ethersproject/providers";
 import { useQuery } from "@apollo/react-hooks";
+import fleekStorage from '@fleekhq/fleek-storage-js'
 
 import { Body, CreateButton, Header, Image, Link } from "../components";
 import useWeb3Modal from "../hooks/useWeb3Modal";
+import env from "react-dotenv";
+import { sha256 } from 'js-sha256';
 
 // import { addresses, abis } from "@project/contracts";
 import GET_TRANSFERS from "../graphql/subgraph";
+// import getArt from "../components/sketch"
 
 import { Zora } from '@zoralabs/zdk'
 import { Wallet } from 'ethers'
@@ -19,6 +23,27 @@ import {
   generateMetadata,
   isMediaDataVerified
 } from '@zoralabs/zdk'
+
+function base64toBlob(base64Data, contentType) {
+    contentType = contentType || '';
+    var sliceSize = 1024;
+    var byteCharacters = atob(base64Data);
+    var bytesLength = byteCharacters.length;
+    var slicesCount = Math.ceil(bytesLength / sliceSize);
+    var byteArrays = new Array(slicesCount);
+
+    for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+        var begin = sliceIndex * sliceSize;
+        var end = Math.min(begin + sliceSize, bytesLength);
+
+        var bytes = new Array(end - begin);
+        for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+            bytes[i] = byteCharacters[offset].charCodeAt(0);
+        }
+        byteArrays[sliceIndex] = new Uint8Array(bytes);
+    }
+    return new Blob(byteArrays, { type: contentType });
+}
 
 async function mintNFT(provider) {
   const wallet = Wallet.createRandom().connect(provider)
@@ -36,12 +61,34 @@ async function mintNFT(provider) {
 
   const metadataHash = await sha256FromBuffer(Buffer.from(minified))
 
+  let image_base64 = "R0lGODlhCAAHAIABAGSV7f///yH+EUNyZWF0ZWQgd2l0aCBHSU1QACH5BAEKAAEALAAAAAAIAAcAAAINjI8BkMq41onRUHljAQA7"
+
+  let image_blob = base64toBlob(image_base64, "image/gif")
+
+  console.log(sha256(image_base64))
+  console.log(metadataHash)
+
+  const uploadedFile = await fleekStorage.upload({
+    apiKey: env.FLEEK_API_KEY,
+    apiSecret: env.FLEEK_API_SECRET,
+    key: 'image-tri-2',
+    data: image_blob,
+  });
+
+  const uploadedMetadata = await fleekStorage.upload({
+    apiKey: env.FLEEK_API_KEY,
+    apiSecret: env.FLEEK_API_SECRET,
+    key: 'image-tri-2'+'-metadata',
+    data: minified,
+  });
+
   const mediaData = constructMediaData(
-    'https://ipfs.fleek.co/ipfs/bafybeiejmhcxqjgeplgsr2d2cpyqdgqwtswcih6gnw4bjgsr5bfojkgwwy',
-    'https://ipfs.fleek.co/ipfs/bafybeib2aywiflnrognbrkkkokcmmxh4c75rzukn55rounu3s4wvaljneu',
+    'https://ipfs.fleek.co/ipfs/'+uploadedFile.hash,
+    'https://ipfs.fleek.co/ipfs/'+uploadedMetadata.hash,
     "0xbcee2b025f77df6f7ea70b02b89b01de9ef6919651302160345f78d7ba000214",
     metadataHash
   )
+  console.log("https://ipfs.fleek.co/ipfs/"+uploadedFile.hash)
 
   // const contentHash = sha256FromBuffer(Buffer.from('Ours Truly,'))
   // console.log(contentHash)
