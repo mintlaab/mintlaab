@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // import { Contract } from "@ethersproject/contracts";
 // import { getDefaultProvider } from "@ethersproject/providers";
 import { useQuery } from "@apollo/react-hooks";
@@ -8,7 +8,7 @@ import logo from "./assets/MintlaabMarkColour.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
 
 // import { addresses, abis } from "@project/contracts";
-import GET_TRANSFERS from "./graphql/subgraph";
+import GET_ADDRESS from "./graphql/subgraph";
 
 import { Zora } from '@zoralabs/zdk'
 import { Wallet } from 'ethers'
@@ -17,6 +17,7 @@ import { BrowserRouter as Router, Switch, Route, Link as RouterLink } from "reac
 import mintlaablogo from "./assets/MintlaabLogoColour.png";
 import Home from "./pages/Home";
 import Mint from "./pages/Mint";
+import Generate from "./pages/Generate";
 import Error from "./pages/Error";
 import {
   constructBidShares,
@@ -25,6 +26,7 @@ import {
   generateMetadata,
   isMediaDataVerified
 } from '@zoralabs/zdk'
+import {ethers} from 'ethers'
 
 
 
@@ -47,15 +49,8 @@ function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
 }
 
 function App() {
-  const { loading, error, data } = useQuery(GET_TRANSFERS);
-  const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
-  
 
-  React.useEffect(() => {
-    if (!loading && !error && data && data.transfers) {
-      console.log("yo")
-    }
-  }, [loading, error, data]);
+  const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
 
   return (
     <Router>
@@ -83,10 +78,12 @@ function App() {
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/mint" component={Mint} />
+            <Route path="/generate" component={Generate} />
             <Route component={Error} />
           </Switch>
         </div>
       </div>
+
     </Router>
   );
 }
