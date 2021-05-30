@@ -51,7 +51,7 @@ async function mintNFT(provider) {
 
   const metadata = {
     version: 'zora-20210101',
-    name: "The r Thinker",
+    name: "The r 4 Thinker",
     description: "This is The Thinker GIF, minted from a JS script using Zora's ZDK",
     mimeType: "image\/gif",
   }
