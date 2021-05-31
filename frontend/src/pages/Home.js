@@ -4,8 +4,15 @@ import { useHistory } from "react-router-dom";
 import bgimage from "../assets/Hero.png";
 import { useQuery } from "@apollo/react-hooks";
 import GET_ADDRESS from "../graphql/subgraph";
+import useWeb3Modal from "../hooks/useWeb3Modal";
 
 function Query(props){
+  const [provider] = useWeb3Modal();
+  let selectedAddress = null;
+  if(provider){
+    selectedAddress = provider.provider.selectedAddress;
+    console.log(selectedAddress)
+  }
   const name = props.ens;
   const { loading, error, data } = useQuery(GET_ADDRESS, {
     variables: {name}
@@ -13,11 +20,18 @@ function Query(props){
   let definedData = 'Not Found'
   if(!loading && !error){
     try{
-    definedData = data.domains[0].resolvedAddress.id
+      definedData = data.domains[0].resolvedAddress.id
+      if(definedData === selectedAddress){
+        alert('Success! Connected account matches ENS entered')
+      }
+      if(definedData !== selectedAddress){
+        alert('Connected account does not match ENS entered')
+        window.location.reload()
+      }
     }
     catch(err){
       alert('ENS domain not found')
-      window.location.reload();
+      window.location.reload()
       console.log(err)
     }
   }

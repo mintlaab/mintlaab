@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { Contract } from "@ethersproject/contracts";
 // import { getDefaultProvider } from "@ethersproject/providers";
 import { useQuery } from "@apollo/react-hooks";
@@ -26,7 +26,8 @@ import {
   isMediaDataVerified
 } from '@zoralabs/zdk'
 
-function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal, setAddress }) {
+function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal}) {
+  
   return (
     <div>
       <button
@@ -41,8 +42,10 @@ function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal, setAddress }
         }
       }}
     >
+
       {!provider ? "Connect Wallet" : "Disconnect Wallet"}
     </button>
+    
     {provider ? <p>{provider.provider.selectedAddress}</p> : <div></div>}
     </div>
     
@@ -52,8 +55,6 @@ function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal, setAddress }
 
 function App() {
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
-  const[address, setAddress] = useState('')
-
   return (
     <Router>
       <div style={{position: "relative"}}>
@@ -64,9 +65,8 @@ function App() {
             </RouterLink>
           </section>
           <section className="navbar-section">
-            {address}
             <div className="input-group input-inline">
-              <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} setAddress={setAddress}/>
+              <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal}/>
             </div>
           </section>
         </header>
