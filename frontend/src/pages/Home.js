@@ -7,7 +7,6 @@ import GET_ADDRESS from "../graphql/subgraph";
 
 function Query(props){
   const name = props.ens;
-  console.log(name)
   const { loading, error, data } = useQuery(GET_ADDRESS, {
     variables: {name}
   });
@@ -15,9 +14,10 @@ function Query(props){
   if(!loading && !error){
     try{
     definedData = data.domains[0].resolvedAddress.id
-    console.log(definedData)
     }
     catch(err){
+      alert('ENS domain not found')
+      window.location.reload();
       console.log(err)
     }
   }
