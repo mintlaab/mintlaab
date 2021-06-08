@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/react-hooks";
 import fleekStorage from '@fleekhq/fleek-storage-js'
 
 import { Body, CreateButton, Header, Image, Link } from "../components";
+import Canvas from "../components/Canvas";
 import useWeb3Modal from "../hooks/useWeb3Modal";
 import env from "react-dotenv";
 
@@ -129,6 +130,7 @@ function Mint() {
           <button className="btn btn-success" onClick={() => mintNFT(provider)}>
             Mint NFT
           </button>
+          <Canvas></Canvas>
         </div>
       </div>
     </div>
