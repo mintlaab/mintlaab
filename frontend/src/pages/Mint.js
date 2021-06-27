@@ -23,25 +23,27 @@ import {
   isMediaDataVerified
 } from '@zoralabs/zdk'
 
+import Art from "../components/Art";
+
 function base64toBlob(base64Data, contentType) {
-    contentType = contentType || '';
-    var sliceSize = 1024;
-    var byteCharacters = atob(base64Data);
-    var bytesLength = byteCharacters.length;
-    var slicesCount = Math.ceil(bytesLength / sliceSize);
-    var byteArrays = new Array(slicesCount);
+  contentType = contentType || '';
+  var sliceSize = 1024;
+  var byteCharacters = atob(base64Data);
+  var bytesLength = byteCharacters.length;
+  var slicesCount = Math.ceil(bytesLength / sliceSize);
+  var byteArrays = new Array(slicesCount);
 
-    for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
-        var begin = sliceIndex * sliceSize;
-        var end = Math.min(begin + sliceSize, bytesLength);
+  for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+    var begin = sliceIndex * sliceSize;
+    var end = Math.min(begin + sliceSize, bytesLength);
 
-        var bytes = new Array(end - begin);
-        for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
-            bytes[i] = byteCharacters[offset].charCodeAt(0);
-        }
-        byteArrays[sliceIndex] = new Uint8Array(bytes);
+    var bytes = new Array(end - begin);
+    for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+      bytes[i] = byteCharacters[offset].charCodeAt(0);
     }
-    return new Blob(byteArrays, { type: contentType });
+    byteArrays[sliceIndex] = new Uint8Array(bytes);
+  }
+  return new Blob(byteArrays, { type: contentType });
 }
 
 async function mintNFT(provider) {
@@ -76,17 +78,17 @@ async function mintNFT(provider) {
   const uploadedMetadata = await fleekStorage.upload({
     apiKey: env.FLEEK_API_KEY,
     apiSecret: env.FLEEK_API_SECRET,
-    key: 'image-tri-2'+'-metadata',
+    key: 'image-tri-2' + '-metadata',
     data: minified,
   });
 
   const mediaData = constructMediaData(
-    'https://ipfs.fleek.co/ipfs/'+uploadedFile.hash,
-    'https://ipfs.fleek.co/ipfs/'+uploadedMetadata.hash,
+    'https://ipfs.fleek.co/ipfs/' + uploadedFile.hash,
+    'https://ipfs.fleek.co/ipfs/' + uploadedMetadata.hash,
     "0xbcee2b025f77df6f7ea70b02b89b01de9ef6919651302160345f78d7ba000214",
     metadataHash
   )
-  console.log("https://ipfs.fleek.co/ipfs/"+uploadedFile.hash)
+  console.log("https://ipfs.fleek.co/ipfs/" + uploadedFile.hash)
 
   // const contentHash = sha256FromBuffer(Buffer.from('Ours Truly,'))
   // console.log(contentHash)
@@ -99,7 +101,7 @@ async function mintNFT(provider) {
     0 // prevOwner share
   )
 
-  
+
 
   // if (!verified){
   //   console.log("MediaData not valid, do not mint")
@@ -129,6 +131,7 @@ function Mint() {
           <button className="btn btn-success" onClick={() => mintNFT(provider)}>
             Mint NFT
           </button>
+          <Art />
         </div>
       </div>
     </div>
